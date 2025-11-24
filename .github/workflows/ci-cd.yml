@@ -66,10 +66,11 @@ jobs:
           curl https://cli-assets.heroku.com/install.sh | sh
 
       - name: 4. Deploy no Heroku
-        uses: Daniele-rolli/heroku-deploy@v1
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           branch: main
           appdir: ./api-deployment
+          dontuseforce: true
