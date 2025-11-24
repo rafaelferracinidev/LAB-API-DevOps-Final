@@ -46,31 +46,13 @@ jobs:
   # 2. JOB DE CD (ENTREGA CONTÍNUA) - DEPLOY NO HEROKU
   # ===================================================
   deploy:
-    needs: build-and-test # Este job SÓ roda se o 'build-and-test' for BEM-SUCEDIDO
+   # Garante que o deploy só roda se os testes (build-and-test) passarem
+    needs: build-and-test
     runs-on: ubuntu-latest
-    environment: Production # Identifica o ambiente de produção
+    environment: Production
     
     steps:
-      - name: 1. Checkout do Código
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: 2. Baixar o Artefato
-        uses: actions/download-artifact@v4
-        with:
-          name: api-artifact
-
-      - name: 3. Instalar Heroku CLI
-        run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
-
-      - name: 4. Deploy no Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          branch: main
-          appdir: ./api-deployment
-          dontuseforce: true
+      - name: 1. Acionar Deploy no Render (Webhook)
+        # Usa o comando curl para enviar um POST para o URL secreto do Render.
+        # O Render, ao receber o POST, inicia o deploy do código mais recente.
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
