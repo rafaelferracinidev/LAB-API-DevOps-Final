@@ -53,6 +53,8 @@ jobs:
     steps:
       - name: 1. Checkout do Código
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: 2. Baixar o Artefato
         uses: actions/download-artifact@v4
@@ -69,4 +71,5 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          branch: main # CORREÇÃO: Usar 'branch' em vez de 'remote_branch'
+          branch: main
+          appdir: ./api-deployment
