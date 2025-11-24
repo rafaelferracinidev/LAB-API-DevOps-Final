@@ -59,7 +59,11 @@ jobs:
         with:
           name: api-artifact
 
-      - name: 3. Deploy no Heroku
+      - name: 3. Instalar Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+
+      - name: 4. Deploy no Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
