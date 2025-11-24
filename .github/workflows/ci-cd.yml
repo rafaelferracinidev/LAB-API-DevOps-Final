@@ -61,7 +61,7 @@ jobs:
         with:
           # Variáveis Secretas que você deve configurar no GitHub
           heroku_email: ${{ secrets.HEROKU_EMAIL }} 
-          heroku_api_key: ${{ secrets.HRKU-AAhuLAPAE8FoCAwoveJGRxUBAfKrBTQYGLDN-uBb89kQ_____ww5XTYGyBb- }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           # 🚨 Substitua pelo nome do seu app no Heroku
           heroku_app_name: "Desafio Final" 
           remote_branch: main # Branch de onde o código será implantado
