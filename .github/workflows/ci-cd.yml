@@ -1,19 +1,15 @@
-# .github/workflows/ci-cd.yml
-
 name: Pipeline CI/CD com Python API
 
 on:
   push:
-    branches: [ "main" ] # Aciona a pipeline no push para a branch 'main'
+    branches: [ "main" ] 
   pull_request:
-    branches: [ "main" ] # Aciona em Pull Requests para 'main'
+    branches: [ "main" ] 
 
 jobs:
-  # ===================================================
-  # 1. JOB DE CI (INTEGRAÇÃO CONTÍNUA) - BUILD E TESTE
-  # ===================================================
+  
   build-and-test:
-    runs-on: ubuntu-latest # Executa em uma máquina virtual Linux
+    runs-on: ubuntu-latest 
 
     steps:
       - name: 1. Checkout do Código
@@ -23,7 +19,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          cache: 'pip' # Acelera a instalação de dependências
+          cache: 'pip' 
 
       - name: 3. Instalar Dependências (incluindo pytest e gunicorn)
         run: |
@@ -32,27 +28,24 @@ jobs:
           pip install pytest # Garante que o framework de teste está instalado
 
       - name: 4. Executar Testes Unitários (Os 3 tipos)
-        # Comando que roda seu arquivo test_app.py
+        
         run: pytest test_app.py
         
-      # Armazena o código como um artefato, só se os testes passarem
+      
       - name: 5. Upload do Artefato
         uses: actions/upload-artifact@v4
         with:
           name: api-artifact
           path: . 
 
-  # ===================================================
-  # 2. JOB DE CD (ENTREGA CONTÍNUA) - DEPLOY NO HEROKU
-  # ===================================================
+  
   deploy:
-   # Garante que o deploy só roda se os testes (build-and-test) passarem
+   
     needs: build-and-test
     runs-on: ubuntu-latest
     environment: Production
     
     steps:
       - name: 1. Acionar Deploy no Render (Webhook)
-        # Usa o comando curl para enviar um POST para o URL secreto do Render.
-        # O Render, ao receber o POST, inicia o deploy do código mais recente.
+        
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
