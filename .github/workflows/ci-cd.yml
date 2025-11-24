@@ -51,12 +51,15 @@ jobs:
     environment: Production # Identifica o ambiente de produção
     
     steps:
-      - name: 1. Baixar o Artefato
+      - name: 1. Checkout do Código
+        uses: actions/checkout@v3
+
+      - name: 2. Baixar o Artefato
         uses: actions/download-artifact@v4
         with:
           name: api-artifact
 
-      - name: 2. Deploy no Heroku
+      - name: 3. Deploy no Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
