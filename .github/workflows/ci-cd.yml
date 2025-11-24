@@ -56,11 +56,10 @@ jobs:
         with:
           name: api-artifact
 
-      - name: 2. Deploy no Heroku 
+      - name: 2. Deploy no Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          
-          heroku_email: ${{ secrets.HEROKU_EMAIL }} 
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          branch: main
+          branch: main # CORREÇÃO: Usar 'branch' em vez de 'remote_branch'
